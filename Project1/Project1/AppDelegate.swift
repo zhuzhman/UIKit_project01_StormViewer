@@ -14,6 +14,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        //Fix Nav Bar tint issue in iOS 15.0 or later - is transparent w/o code below
+        if #available(iOS 15.0, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithDefaultBackground()
+            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+        }
+        /*
+         The configureWithDefaultBackground makes the navigation bar appear as translucent.
+
+         The main key here is that we are setting the new scrollEdgeAppearance to be the same as standard one.
+         This turns off the automatic transparency for all navigation bars in your app, since with the UINavigationBar.appearance()
+         we are using the appearance proxy. The code above should ideally go to AppDelegate when the app starts.
+         */
         return true
     }
 
